@@ -21,21 +21,23 @@
     @keyframes twinkle{from{opacity:0.2}to{opacity:1}}
 
     /* ── SURPRISE SCREEN ── */
-    #surpriseScreen{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#0B3075 0%,#0a1628 70%);text-align:center;padding:24px;transition:opacity 0.8s ease,transform 0.8s ease}
+    #surpriseScreen{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#0B3075 0%,#0a1628 70%);text-align:center;padding:24px;transition:opacity 0.8s ease,transform 0.8s ease;overflow:hidden}
     #surpriseScreen.hide{opacity:0;transform:scale(1.05);pointer-events:none}
-    .surprise-skull{font-size:5rem;animation:float-el 3s ease-in-out infinite;margin-bottom:8px;display:block}
+
+    /* ── YES FRUITS GRID ── */
+    .fruits-container{position:absolute;inset:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:0;z-index:1}
+    .fruit-yes{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;padding:8px;transition:all 0.2s;animation:fruit-bounce ease-in-out infinite alternate;background:transparent;border:none;color:inherit}
+    .fruit-yes:hover{transform:scale(1.3)!important;filter:drop-shadow(0 0 12px #FFCD00)}
+    .fruit-yes:active{transform:scale(0.9)!important}
+    .fruit-emoji{font-size:clamp(2rem,4vw,3.5rem);line-height:1}
+    .fruit-yes-text{font-family:'Cinzel Decorative',serif;font-size:clamp(0.55rem,1.2vw,0.85rem);color:#FFCD00;font-weight:900;letter-spacing:0.05em;text-shadow:0 0 8px rgba(255,205,0,0.8),1px 1px 0 #D70000}
+    @keyframes fruit-bounce{0%{transform:translateY(0) rotate(-3deg)}100%{transform:translateY(-8px) rotate(3deg)}}
+
+    /* title overlay */
+    .surprise-overlay{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;background:radial-gradient(ellipse at center,rgba(11,48,117,0.7) 0%,transparent 70%)}
+    .surprise-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.4rem,5vw,3.5rem);color:#FFCD00;text-shadow:0 0 40px rgba(255,205,0,0.8),3px 3px 0 #D70000;line-height:1.2;margin-bottom:10px}
+    .surprise-sub{font-family:'Special Elite',cursive;font-size:clamp(0.8rem,2vw,1.1rem);color:#62C3F8;letter-spacing:0.15em}
     @keyframes float-el{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-16px) rotate(5deg)}}
-    .surprise-eyebrow{font-family:'Special Elite',cursive;font-size:0.85rem;letter-spacing:0.4em;color:#62C3F8;text-transform:uppercase;margin-bottom:16px}
-    .surprise-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.6rem,6vw,4rem);color:#FFCD00;text-shadow:0 0 40px rgba(255,205,0,0.6),3px 3px 0 #D70000;line-height:1.2;margin-bottom:12px}
-    .surprise-sub{font-family:'Special Elite',cursive;font-size:clamp(0.85rem,2.5vw,1.1rem);color:#62C3F8;letter-spacing:0.1em;margin-bottom:48px}
-    .yes-grid{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;max-width:600px}
-    .yes-btn{background:linear-gradient(135deg,#D70000,#8b0000);color:#FFCD00;font-family:'Cinzel Decorative',serif;font-size:clamp(0.85rem,2.5vw,1.1rem);font-weight:900;padding:14px 28px;border:2px solid #FFCD00;border-radius:4px;cursor:pointer;letter-spacing:0.1em;box-shadow:4px 4px 0 #AF6528,0 0 20px rgba(215,0,0,0.4);transition:all 0.15s;animation:yes-pulse 2s ease-in-out infinite}
-    .yes-btn:nth-child(2){animation-delay:0.2s}
-    .yes-btn:nth-child(3){animation-delay:0.4s}
-    .yes-btn:nth-child(4){animation-delay:0.6s}
-    .yes-btn:nth-child(5){animation-delay:0.8s}
-    @keyframes yes-pulse{0%,100%{transform:scale(1);box-shadow:4px 4px 0 #AF6528,0 0 20px rgba(215,0,0,0.4)}50%{transform:scale(1.05);box-shadow:4px 4px 0 #AF6528,0 0 40px rgba(255,205,0,0.5)}}
-    .yes-btn:hover{background:linear-gradient(135deg,#FFCD00,#e6a800);color:#1a1008;transform:scale(1.1)!important}
 
     /* ── LOGIN SCREEN ── */
     #loginScreen{position:fixed;inset:0;z-index:99;display:none;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#0B3075 0%,#0a1628 70%);padding:24px;transition:opacity 0.8s ease}
@@ -140,21 +142,14 @@
 </head>
 <body>
 
-<!-- ═══ DEVIL FRUIT FLOATING BG ═══ -->
-<div class="df-bg" id="dfBg"></div>
-
 <!-- ═══ SURPRISE SCREEN ═══ -->
 <div id="surpriseScreen">
-  <span class="surprise-skull">🏴‍☠️</span>
-  <p class="surprise-eyebrow">⚓ Ek Khaas Surprise Hai Tere Liye ⚓</p>
-  <h1 class="surprise-title">Kya Tum Ready Ho<br/>Surprise Ke Liye? 🎁</h1>
-  <p class="surprise-sub">Sirf ek hi jawab qubool hai captain...</p>
-  <div class="yes-grid">
-    <button class="yes-btn" onclick="goToLogin()">YES! 🔥</button>
-    <button class="yes-btn" onclick="goToLogin()">HAAN JI! 🏴‍☠️</button>
-    <button class="yes-btn" onclick="goToLogin()">BILKUL YES! ⚓</button>
-    <button class="yes-btn" onclick="goToLogin()">100% YES! 🌊</button>
-    <button class="yes-btn" onclick="goToLogin()">OF COURSE YES! ✨</button>
+  <!-- Full screen YES fruits -->
+  <div class="fruits-container" id="fruitsContainer"></div>
+  <!-- Center overlay title -->
+  <div class="surprise-overlay">
+    <h1 class="surprise-title">🏴‍☠️ Kya Tum Ready Ho<br/>Surprise Ke Liye? 🎁</h1>
+    <p class="surprise-sub">⚓ Koi bhi fruit dabao captain... ⚓</p>
   </div>
 </div>
 
@@ -361,19 +356,36 @@
 </div><!-- end mainSite -->
 
 <script>
-  /* ── DEVIL FRUITS ── */
-  const fruits = ['🍎','🍊','🍋','🍇','🫐','🍓','🍒','🥭','🍑','🍍'];
-  const dfBg = document.getElementById('dfBg');
-  for(let i=0;i<25;i++){
-    const d=document.createElement('div');
-    d.classList.add('df');
-    d.textContent=fruits[Math.floor(Math.random()*fruits.length)];
-    d.style.cssText=`left:${Math.random()*100}%;font-size:${2+Math.random()*3}rem;animation-duration:${8+Math.random()*12}s;animation-delay:${Math.random()*10}s`;
-    dfBg.appendChild(d);
+  /* ── DEVIL FRUITS FULL SCREEN GRID ── */
+  const yesWords = ['YES! 🔥','HAAN! ⚓','BILKUL!','OF COURSE!','100% YES!','ZAROOR!','HAAN JI!','YES YES!','OBVIOUSLY!','DEFINITELY!'];
+  const fruitEmojis = ['🍎','🍊','🍋','🍇','🫐','🍓','🍒','🥭','🍑','🍍','🍈','🍌','🍉','🍏','🫒'];
+  const fc = document.getElementById('fruitsContainer');
+  const cols = Math.ceil(window.innerWidth / 100) + 2;
+  const rows = Math.ceil(window.innerHeight / 100) + 2;
+  const total = cols * rows;
+  for(let i=0;i<total;i++){
+    const btn = document.createElement('button');
+    btn.classList.add('fruit-yes');
+    btn.style.animationDuration = (1.5 + Math.random()*2) + 's';
+    btn.style.animationDelay = (Math.random()*2) + 's';
+    const emoji = fruitEmojis[Math.floor(Math.random()*fruitEmojis.length)];
+    const word = yesWords[Math.floor(Math.random()*yesWords.length)];
+    btn.innerHTML = `<span class="fruit-emoji">${emoji}</span><span class="fruit-yes-text">${word}</span>`;
+    btn.onclick = goToLogin;
+    fc.appendChild(btn);
   }
 
   /* ── SURPRISE → LOGIN ── */
   function goToLogin(){
+    // Start music immediately on first interaction!
+    const music = document.getElementById('bgMusic');
+    if(music){
+      music.volume = 0.7;
+      music.play().then(()=>{
+        isPlaying = true;
+        musicStarted = true;
+      }).catch(()=>{});
+    }
     document.getElementById('surpriseScreen').classList.add('hide');
     setTimeout(()=>{
       document.getElementById('surpriseScreen').style.display='none';
