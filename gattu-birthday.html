@@ -1,601 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Happy Birthday Gattu 🏴‍☠️</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Special+Elite&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --red:    #D70000;
-      --gold:   #FFCD00;
-      --navy:   #0B3075;
-      --sky:    #62C3F8;
-      --brown:  #AF6528;
-      --dark:   #1a1008;
-      --parch:  #f5e9c8;
-      --cream:  #fdf6e3;
-    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{background:#0a1628;font-family:'Crimson Pro',serif;color:#fdf6e3;overflow-x:hidden}
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* ── DEVIL FRUIT BG ── */
+    .df-bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+    .df{position:absolute;font-size:3.5rem;animation:df-float linear infinite;opacity:0.15}
+    @keyframes df-float{0%{transform:translateY(110vh) rotate(0deg);opacity:0}10%{opacity:0.15}90%{opacity:0.15}100%{transform:translateY(-10vh) rotate(360deg);opacity:0}}
 
-    html { scroll-behavior: smooth; }
+    /* ── STARS ── */
+    .stars{position:absolute;inset:0}
+    .star{position:absolute;background:white;border-radius:50%;animation:twinkle 3s infinite alternate}
+    @keyframes twinkle{from{opacity:0.2}to{opacity:1}}
 
-    body {
-      background: var(--dark);
-      font-family: 'Crimson Pro', serif;
-      color: var(--cream);
-      overflow-x: hidden;
-    }
+    /* ── SURPRISE SCREEN ── */
+    #surpriseScreen{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#0B3075 0%,#0a1628 70%);text-align:center;padding:24px;transition:opacity 0.8s ease,transform 0.8s ease}
+    #surpriseScreen.hide{opacity:0;transform:scale(1.05);pointer-events:none}
+    .surprise-skull{font-size:5rem;animation:float-el 3s ease-in-out infinite;margin-bottom:8px;display:block}
+    @keyframes float-el{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-16px) rotate(5deg)}}
+    .surprise-eyebrow{font-family:'Special Elite',cursive;font-size:0.85rem;letter-spacing:0.4em;color:#62C3F8;text-transform:uppercase;margin-bottom:16px}
+    .surprise-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.6rem,6vw,4rem);color:#FFCD00;text-shadow:0 0 40px rgba(255,205,0,0.6),3px 3px 0 #D70000;line-height:1.2;margin-bottom:12px}
+    .surprise-sub{font-family:'Special Elite',cursive;font-size:clamp(0.85rem,2.5vw,1.1rem);color:#62C3F8;letter-spacing:0.1em;margin-bottom:48px}
+    .yes-grid{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;max-width:600px}
+    .yes-btn{background:linear-gradient(135deg,#D70000,#8b0000);color:#FFCD00;font-family:'Cinzel Decorative',serif;font-size:clamp(0.85rem,2.5vw,1.1rem);font-weight:900;padding:14px 28px;border:2px solid #FFCD00;border-radius:4px;cursor:pointer;letter-spacing:0.1em;box-shadow:4px 4px 0 #AF6528,0 0 20px rgba(215,0,0,0.4);transition:all 0.15s;animation:yes-pulse 2s ease-in-out infinite}
+    .yes-btn:nth-child(2){animation-delay:0.2s}
+    .yes-btn:nth-child(3){animation-delay:0.4s}
+    .yes-btn:nth-child(4){animation-delay:0.6s}
+    .yes-btn:nth-child(5){animation-delay:0.8s}
+    @keyframes yes-pulse{0%,100%{transform:scale(1);box-shadow:4px 4px 0 #AF6528,0 0 20px rgba(215,0,0,0.4)}50%{transform:scale(1.05);box-shadow:4px 4px 0 #AF6528,0 0 40px rgba(255,205,0,0.5)}}
+    .yes-btn:hover{background:linear-gradient(135deg,#FFCD00,#e6a800);color:#1a1008;transform:scale(1.1)!important}
 
-    /* ── OCEAN BACKGROUND ── */
-    .ocean-bg {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      background: linear-gradient(180deg, #0a1628 0%, #0B3075 50%, #0a1628 100%);
-      overflow: hidden;
-    }
+    /* ── LOGIN SCREEN ── */
+    #loginScreen{position:fixed;inset:0;z-index:99;display:none;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#0B3075 0%,#0a1628 70%);padding:24px;transition:opacity 0.8s ease}
+    #loginScreen.show{display:flex}
+    #loginScreen.hide{opacity:0;pointer-events:none}
+    .login-box{background:rgba(10,16,35,0.92);border:3px solid #FFCD00;border-radius:4px;padding:40px 36px;max-width:420px;width:100%;text-align:center;box-shadow:6px 6px 0 #AF6528,0 0 60px rgba(255,205,0,0.15);position:relative}
+    .login-box::before{content:'';position:absolute;inset:6px;border:1px solid rgba(255,205,0,0.2);border-radius:2px;pointer-events:none}
+    .login-flag{font-size:3.5rem;margin-bottom:12px;display:block;animation:float-el 3s ease-in-out infinite}
+    .login-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.1rem,3.5vw,1.6rem);color:#FFCD00;margin-bottom:6px}
+    .login-sub{font-family:'Special Elite',cursive;font-size:0.75rem;letter-spacing:0.3em;color:#62C3F8;margin-bottom:28px}
+    .login-field{margin-bottom:16px;text-align:left}
+    .login-field label{font-family:'Special Elite',cursive;font-size:0.75rem;letter-spacing:0.2em;color:#D70000;text-transform:uppercase;display:block;margin-bottom:6px}
+    .login-field input{width:100%;background:rgba(255,255,255,0.05);border:2px solid rgba(255,205,0,0.3);border-radius:4px;padding:12px 16px;color:#fdf6e3;font-family:'Special Elite',cursive;font-size:0.95rem;letter-spacing:0.05em;outline:none;transition:border-color 0.3s}
+    .login-field input:focus{border-color:#FFCD00;box-shadow:0 0 12px rgba(255,205,0,0.2)}
+    .login-btn{width:100%;background:linear-gradient(135deg,#D70000,#8b0000);color:#FFCD00;font-family:'Cinzel Decorative',serif;font-size:1rem;font-weight:900;padding:14px;border:2px solid #FFCD00;border-radius:4px;cursor:pointer;letter-spacing:0.1em;margin-top:8px;box-shadow:3px 3px 0 #AF6528;transition:all 0.2s}
+    .login-btn:hover{background:linear-gradient(135deg,#FFCD00,#e6a800);color:#1a1008;transform:translateY(-2px)}
+    .login-error{color:#D70000;font-family:'Special Elite',cursive;font-size:0.8rem;margin-top:12px;min-height:20px;letter-spacing:0.1em}
+    @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+    .shake{animation:shake 0.4s ease}
 
-    .wave {
-      position: absolute;
-      bottom: 0;
-      width: 200%;
-      height: 160px;
-      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 160'%3E%3Cpath fill='%2362C3F8' fill-opacity='0.15' d='M0,80 C360,160 1080,0 1440,80 L1440,160 L0,160 Z'/%3E%3C/svg%3E") repeat-x;
-      animation: wave-move 8s linear infinite;
-    }
-    .wave:nth-child(2) {
-      height: 120px;
-      opacity: 0.08;
-      animation-duration: 12s;
-      animation-direction: reverse;
-    }
-    .wave:nth-child(3) {
-      height: 90px;
-      opacity: 0.05;
-      animation-duration: 16s;
-    }
+    /* ── MAIN SITE ── */
+    #mainSite{display:none}
+    #mainSite.show{display:block}
 
-    @keyframes wave-move {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
-    }
+    :root{--red:#D70000;--gold:#FFCD00;--navy:#0B3075;--sky:#62C3F8;--brown:#AF6528;--dark:#1a1008;--parch:#f5e9c8;--cream:#fdf6e3}
 
-    /* Stars */
-    .stars {
-      position: absolute;
-      inset: 0;
-    }
-    .star {
-      position: absolute;
-      background: white;
-      border-radius: 50%;
-      animation: twinkle 3s infinite alternate;
-    }
-    @keyframes twinkle {
-      from { opacity: 0.2; }
-      to   { opacity: 1; }
-    }
+    .ocean-bg{position:fixed;inset:0;z-index:0;background:linear-gradient(180deg,#0a1628 0%,#0B3075 50%,#0a1628 100%);overflow:hidden}
+    .wave{position:absolute;bottom:0;width:200%;height:160px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 160'%3E%3Cpath fill='%2362C3F8' fill-opacity='0.15' d='M0,80 C360,160 1080,0 1440,80 L1440,160 L0,160 Z'/%3E%3C/svg%3E") repeat-x;animation:wave-move 8s linear infinite}
+    .wave:nth-child(2){height:120px;opacity:0.08;animation-duration:12s;animation-direction:reverse}
+    .wave:nth-child(3){height:90px;opacity:0.05;animation-duration:16s}
+    @keyframes wave-move{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-    /* ── SECTIONS ── */
-    section {
-      position: relative;
-      z-index: 1;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 80px 24px;
-      opacity: 0;
-      transform: translateY(60px);
-      transition: opacity 0.9s ease, transform 0.9s ease;
-    }
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    section{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 24px;opacity:0;transform:translateY(60px);transition:opacity 0.9s ease,transform 0.9s ease}
+    section.visible{opacity:1;transform:translateY(0)}
 
-    /* ── HERO ── */
-    #hero {
-      text-align: center;
-      min-height: 100vh;
-    }
+    #hero{text-align:center}
+    .jolly-roger{font-size:5rem;animation:float-el 3s ease-in-out infinite;display:block;margin-bottom:16px}
+    .hero-eyebrow{font-family:'Special Elite',cursive;font-size:0.9rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:16px}
+    .hero-title{font-family:'Cinzel Decorative',serif;font-size:clamp(2.2rem,8vw,5.5rem);color:var(--gold);text-shadow:0 0 40px rgba(255,205,0,0.5),3px 3px 0 var(--red);line-height:1.1;margin-bottom:12px}
+    .hero-subtitle{font-family:'Special Elite',cursive;font-size:clamp(1rem,3vw,1.5rem);color:var(--sky);letter-spacing:0.15em;margin-bottom:32px}
+    .hero-date{display:inline-block;background:var(--red);color:white;font-family:'Special Elite',cursive;font-size:1rem;padding:8px 24px;border-radius:4px;border:2px solid var(--gold);margin-bottom:40px}
+    .scroll-hint{font-family:'Special Elite',cursive;font-size:0.8rem;color:var(--sky);letter-spacing:0.2em;animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:0.4}50%{opacity:1}}
 
-    .jolly-roger {
-      font-size: 5rem;
-      animation: float 3s ease-in-out infinite;
-      display: block;
-      margin-bottom: 16px;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(-16px); }
-    }
+    .panel{background:rgba(10,16,35,0.85);border:3px solid var(--gold);border-radius:4px;padding:40px 36px;max-width:720px;width:100%;position:relative;box-shadow:6px 6px 0 var(--brown),0 0 60px rgba(255,205,0,0.1)}
+    .panel::before{content:'';position:absolute;inset:6px;border:1px solid rgba(255,205,0,0.2);border-radius:2px;pointer-events:none}
+    .section-eyebrow{font-family:'Special Elite',cursive;font-size:0.75rem;letter-spacing:0.4em;color:var(--red);text-transform:uppercase;margin-bottom:12px}
+    .section-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.4rem,4vw,2.2rem);color:var(--gold);margin-bottom:20px;line-height:1.2}
+    .section-body{font-size:1.15rem;line-height:1.9;color:#e8d9b5}
+    .section-body em{color:var(--sky);font-style:italic}
 
-    .hero-eyebrow {
-      font-family: 'Special Elite', cursive;
-      font-size: 0.9rem;
-      letter-spacing: 0.3em;
-      color: var(--gold);
-      text-transform: uppercase;
-      margin-bottom: 16px;
-    }
+    .wanted-poster{background:var(--parch);color:var(--dark);border:6px double var(--brown);border-radius:4px;padding:32px 28px;max-width:380px;width:100%;text-align:center;box-shadow:8px 8px 0 #6b3a10,0 0 80px rgba(175,101,40,0.3)}
+    .wanted-title{font-family:'Cinzel Decorative',serif;font-size:2.2rem;color:var(--dark);letter-spacing:0.15em;border-bottom:3px solid var(--dark);padding-bottom:8px;margin-bottom:16px}
+    .wanted-name{font-family:'Cinzel Decorative',serif;font-size:1.6rem;color:var(--red);margin:12px 0}
+    .wanted-photo{width:180px;height:200px;background:rgba(175,101,40,0.2);border:3px solid var(--brown);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:5rem;border-radius:2px}
+    .wanted-bounty-label{font-family:'Special Elite',cursive;font-size:0.85rem;letter-spacing:0.3em;color:var(--dark);margin-top:16px}
+    .wanted-bounty{font-family:'Cinzel Decorative',serif;font-size:1.5rem;color:var(--red);font-weight:900}
+    .wanted-tag{font-family:'Special Elite',cursive;font-size:0.7rem;letter-spacing:0.2em;color:#555;margin-top:8px}
 
-    .hero-title {
-      font-family: 'Cinzel Decorative', serif;
-      font-size: clamp(2.2rem, 8vw, 5.5rem);
-      color: var(--gold);
-      text-shadow: 0 0 40px rgba(255,205,0,0.5), 3px 3px 0 var(--red);
-      line-height: 1.1;
-      margin-bottom: 12px;
-    }
+    .memory-card{background:rgba(10,16,35,0.85);border:3px solid var(--sky);border-radius:4px;padding:36px;max-width:680px;width:100%;text-align:center;box-shadow:0 0 60px rgba(98,195,248,0.15)}
+    .snow-emoji{font-size:2.5rem;animation:snow-fall 4s ease-in-out infinite;display:block;margin-bottom:16px}
+    @keyframes snow-fall{0%,100%{transform:translateY(0) rotate(0deg);opacity:0.6}50%{transform:translateY(-10px) rotate(10deg);opacity:1}}
 
-    .hero-subtitle {
-      font-family: 'Special Elite', cursive;
-      font-size: clamp(1rem, 3vw, 1.5rem);
-      color: var(--sky);
-      letter-spacing: 0.15em;
-      margin-bottom: 32px;
-    }
+    .loves-list{list-style:none;display:flex;flex-direction:column;gap:16px;margin-top:20px}
+    .loves-list li{display:flex;align-items:flex-start;gap:14px;background:rgba(255,205,0,0.06);border-left:3px solid var(--gold);padding:14px 18px;border-radius:0 4px 4px 0;font-size:1.1rem;color:#e8d9b5;line-height:1.6}
+    .loves-list li .icon{font-size:1.5rem;flex-shrink:0}
 
-    .hero-date {
-      display: inline-block;
-      background: var(--red);
-      color: white;
-      font-family: 'Special Elite', cursive;
-      font-size: 1rem;
-      padding: 8px 24px;
-      border-radius: 4px;
-      border: 2px solid var(--gold);
-      margin-bottom: 40px;
-    }
+    #song{background:radial-gradient(ellipse at center,rgba(215,0,0,0.15) 0%,transparent 70%)}
+    .song-player{background:rgba(10,16,35,0.9);border:3px solid var(--red);border-radius:50px;padding:20px 32px;display:flex;align-items:center;gap:20px;max-width:500px;width:100%;box-shadow:0 0 40px rgba(215,0,0,0.3);margin-top:24px}
+    .song-icon{font-size:2.5rem;animation:spin-slow 8s linear infinite}
+    @keyframes spin-slow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    .song-info{flex:1}
+    .song-name{font-family:'Special Elite',cursive;font-size:1.1rem;color:var(--gold)}
+    .song-label{font-size:0.85rem;color:var(--sky);font-style:italic}
 
-    .scroll-hint {
-      font-family: 'Special Elite', cursive;
-      font-size: 0.8rem;
-      color: var(--sky);
-      letter-spacing: 0.2em;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 0.4; }
-      50%       { opacity: 1; }
-    }
+    .message-box{background:rgba(10,16,35,0.85);border:2px solid var(--gold);border-radius:4px;padding:40px;max-width:680px;width:100%;margin-top:24px}
 
-    /* ── PANEL (manga-style) ── */
-    .panel {
-      background: rgba(10, 16, 35, 0.85);
-      border: 3px solid var(--gold);
-      border-radius: 4px;
-      padding: 40px 36px;
-      max-width: 720px;
-      width: 100%;
-      position: relative;
-      box-shadow: 6px 6px 0 var(--brown), 0 0 60px rgba(255,205,0,0.1);
-    }
+    .photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:720px;width:100%;margin-top:24px}
+    .photo-slot{aspect-ratio:1;background:rgba(10,16,35,0.7);border:2px solid rgba(255,205,0,0.3);border-radius:4px;overflow:hidden}
+    .photo-slot img{width:100%;height:100%;object-fit:cover}
 
-    .panel::before {
-      content: '';
-      position: absolute;
-      inset: 6px;
-      border: 1px solid rgba(255,205,0,0.2);
-      border-radius: 2px;
-      pointer-events: none;
-    }
+    .confetti-container{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+    .confetti-piece{position:absolute;top:-20px;width:10px;height:10px;border-radius:2px;animation:confetti-fall linear infinite}
+    @keyframes confetti-fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0.3}}
 
-    .section-eyebrow {
-      font-family: 'Special Elite', cursive;
-      font-size: 0.75rem;
-      letter-spacing: 0.4em;
-      color: var(--red);
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
+    .finale-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.8rem,7vw,4.5rem);color:var(--gold);text-shadow:0 0 40px rgba(255,205,0,0.7),3px 3px 0 var(--red);animation:glow-pulse 2s ease-in-out infinite;line-height:1.2}
+    @keyframes glow-pulse{0%,100%{text-shadow:0 0 30px rgba(255,205,0,0.5),3px 3px 0 var(--red)}50%{text-shadow:0 0 70px rgba(255,205,0,0.9),3px 3px 0 var(--red)}}
+    .finale-sub{font-family:'Special Elite',cursive;font-size:clamp(0.9rem,2.5vw,1.3rem);color:var(--sky);letter-spacing:0.2em;margin-top:16px}
+    .fireworks{font-size:3rem;margin-top:32px;animation:firework-pop 1s ease-in-out infinite alternate}
+    @keyframes firework-pop{from{transform:scale(1)}to{transform:scale(1.2)}}
+    .sig{margin-top:40px;font-family:'Crimson Pro',serif;font-style:italic;font-size:1.3rem;color:rgba(255,205,0,0.7)}
 
-    .section-title {
-      font-family: 'Cinzel Decorative', serif;
-      font-size: clamp(1.4rem, 4vw, 2.2rem);
-      color: var(--gold);
-      margin-bottom: 20px;
-      line-height: 1.2;
-    }
+    .nav-dots{position:fixed;right:20px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:100}
+    .nav-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,205,0,0.3);cursor:pointer;transition:all 0.3s;border:1px solid rgba(255,205,0,0.5)}
+    .nav-dot.active{background:var(--gold);transform:scale(1.4)}
 
-    .section-body {
-      font-size: 1.15rem;
-      line-height: 1.9;
-      color: #e8d9b5;
-    }
+    .divider{display:flex;align-items:center;gap:12px;margin:0 auto 32px;max-width:300px;width:100%;color:var(--gold);opacity:0.5}
+    .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--gold)}
 
-    .section-body em {
-      color: var(--sky);
-      font-style: italic;
-    }
-
-    /* ── WANTED POSTER ── */
-    .wanted-poster {
-      background: var(--parch);
-      color: var(--dark);
-      border: 6px double var(--brown);
-      border-radius: 4px;
-      padding: 32px 28px;
-      max-width: 380px;
-      width: 100%;
-      text-align: center;
-      box-shadow: 8px 8px 0 #6b3a10, 0 0 80px rgba(175,101,40,0.3);
-      position: relative;
-    }
-
-    .wanted-title {
-      font-family: 'Cinzel Decorative', serif;
-      font-size: 2.2rem;
-      color: var(--dark);
-      letter-spacing: 0.15em;
-      border-bottom: 3px solid var(--dark);
-      padding-bottom: 8px;
-      margin-bottom: 16px;
-    }
-
-    .wanted-name {
-      font-family: 'Cinzel Decorative', serif;
-      font-size: 1.6rem;
-      color: var(--red);
-      margin: 12px 0;
-    }
-
-    .wanted-photo {
-      width: 180px;
-      height: 200px;
-      background: rgba(175,101,40,0.2);
-      border: 3px solid var(--brown);
-      margin: 0 auto 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 5rem;
-      border-radius: 2px;
-    }
-
-    .wanted-bounty-label {
-      font-family: 'Special Elite', cursive;
-      font-size: 0.85rem;
-      letter-spacing: 0.3em;
-      color: var(--dark);
-      margin-top: 16px;
-    }
-
-    .wanted-bounty {
-      font-family: 'Cinzel Decorative', serif;
-      font-size: 1.5rem;
-      color: var(--red);
-      font-weight: 900;
-    }
-
-    .wanted-tag {
-      font-family: 'Special Elite', cursive;
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      color: #555;
-      margin-top: 8px;
-    }
-
-    /* ── MEMORY CARD ── */
-    .memory-card {
-      background: rgba(10, 16, 35, 0.85);
-      border: 3px solid var(--sky);
-      border-radius: 4px;
-      padding: 36px;
-      max-width: 680px;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 0 60px rgba(98,195,248,0.15);
-      position: relative;
-    }
-
-    .snow-emoji {
-      font-size: 2.5rem;
-      animation: snow-fall 4s ease-in-out infinite;
-      display: block;
-      margin-bottom: 16px;
-    }
-    @keyframes snow-fall {
-      0%   { transform: translateY(0) rotate(0deg); opacity: 0.6; }
-      50%  { transform: translateY(-10px) rotate(10deg); opacity: 1; }
-      100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
-    }
-
-    /* ── LOVES LIST ── */
-    .loves-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      margin-top: 20px;
-    }
-    .loves-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      background: rgba(255,205,0,0.06);
-      border-left: 3px solid var(--gold);
-      padding: 14px 18px;
-      border-radius: 0 4px 4px 0;
-      font-size: 1.1rem;
-      color: #e8d9b5;
-      line-height: 1.6;
-    }
-    .loves-list li .icon { font-size: 1.5rem; flex-shrink: 0; }
-
-    /* ── SONG SECTION ── */
-    #song {
-      background: radial-gradient(ellipse at center, rgba(215,0,0,0.15) 0%, transparent 70%);
-    }
-
-    .song-player {
-      background: rgba(10,16,35,0.9);
-      border: 3px solid var(--red);
-      border-radius: 50px;
-      padding: 20px 32px;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      max-width: 500px;
-      width: 100%;
-      box-shadow: 0 0 40px rgba(215,0,0,0.3);
-      margin-top: 24px;
-    }
-
-    .song-icon { font-size: 2.5rem; animation: spin-slow 8s linear infinite; }
-    @keyframes spin-slow {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-
-    .song-info { flex: 1; }
-    .song-name {
-      font-family: 'Special Elite', cursive;
-      font-size: 1.1rem;
-      color: var(--gold);
-    }
-    .song-label {
-      font-size: 0.85rem;
-      color: var(--sky);
-      font-style: italic;
-    }
-
-    /* ── DEN DEN MUSHI AUDIO ── */
-    .den-den {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-      margin-top: 24px;
-    }
-
-    .den-den-snail {
-      font-size: 5rem;
-      animation: snail-wiggle 2s ease-in-out infinite;
-    }
-    @keyframes snail-wiggle {
-      0%, 100% { transform: rotate(-5deg); }
-      50%       { transform: rotate(5deg); }
-    }
-
-    .den-den-label {
-      font-family: 'Special Elite', cursive;
-      font-size: 0.8rem;
-      letter-spacing: 0.3em;
-      color: var(--gold);
-      text-transform: uppercase;
-    }
-
-    .audio-upload-btn {
-      background: var(--navy);
-      border: 2px solid var(--sky);
-      color: var(--sky);
-      font-family: 'Special Elite', cursive;
-      font-size: 0.9rem;
-      letter-spacing: 0.1em;
-      padding: 12px 28px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    .audio-upload-btn:hover {
-      background: var(--sky);
-      color: var(--dark);
-    }
-
-    /* ── MESSAGE SECTION ── */
-    .message-box {
-      background: rgba(10,16,35,0.85);
-      border: 2px dashed var(--gold);
-      border-radius: 4px;
-      padding: 40px;
-      max-width: 680px;
-      width: 100%;
-      min-height: 200px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      text-align: center;
-      margin-top: 24px;
-    }
-
-    .message-placeholder {
-      font-family: 'Crimson Pro', serif;
-      font-size: 1.3rem;
-      font-style: italic;
-      color: rgba(255,205,0,0.4);
-    }
-
-    .message-pen {
-      font-size: 3rem;
-      animation: pen-bounce 2s ease-in-out infinite;
-    }
-    @keyframes pen-bounce {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(-8px) rotate(-10deg); }
-    }
-
-    /* ── PHOTO SECTION ── */
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      max-width: 720px;
-      width: 100%;
-      margin-top: 24px;
-    }
-
-    .photo-slot {
-      aspect-ratio: 1;
-      background: rgba(10,16,35,0.7);
-      border: 2px dashed rgba(255,205,0,0.3);
-      border-radius: 4px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      color: rgba(255,205,0,0.4);
-      font-family: 'Special Elite', cursive;
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    .photo-slot:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-      background: rgba(255,205,0,0.05);
-    }
-    .photo-slot .slot-icon { font-size: 1.8rem; }
-
-    /* ── BIRTHDAY FINALE ── */
-    #finale {
-      text-align: center;
-      overflow: hidden;
-    }
-
-    .confetti-container {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .confetti-piece {
-      position: absolute;
-      top: -20px;
-      width: 10px;
-      height: 10px;
-      border-radius: 2px;
-      animation: confetti-fall linear infinite;
-    }
-
-    @keyframes confetti-fall {
-      0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(110vh) rotate(720deg); opacity: 0.3; }
-    }
-
-    .finale-title {
-      font-family: 'Cinzel Decorative', serif;
-      font-size: clamp(1.8rem, 7vw, 4.5rem);
-      color: var(--gold);
-      text-shadow: 0 0 40px rgba(255,205,0,0.7), 3px 3px 0 var(--red);
-      animation: glow-pulse 2s ease-in-out infinite;
-      line-height: 1.2;
-    }
-
-    @keyframes glow-pulse {
-      0%, 100% { text-shadow: 0 0 30px rgba(255,205,0,0.5), 3px 3px 0 var(--red); }
-      50%       { text-shadow: 0 0 70px rgba(255,205,0,0.9), 3px 3px 0 var(--red); }
-    }
-
-    .finale-sub {
-      font-family: 'Special Elite', cursive;
-      font-size: clamp(0.9rem, 2.5vw, 1.3rem);
-      color: var(--sky);
-      letter-spacing: 0.2em;
-      margin-top: 16px;
-    }
-
-    .fireworks {
-      font-size: 3rem;
-      margin-top: 32px;
-      animation: firework-pop 1s ease-in-out infinite alternate;
-    }
-    @keyframes firework-pop {
-      from { transform: scale(1); }
-      to   { transform: scale(1.2); }
-    }
-
-    .sig {
-      margin-top: 40px;
-      font-family: 'Crimson Pro', serif;
-      font-style: italic;
-      font-size: 1.3rem;
-      color: rgba(255,205,0,0.7);
-    }
-
-    /* ── NAV DOTS ── */
-    .nav-dots {
-      position: fixed;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      z-index: 100;
-    }
-
-    .nav-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: rgba(255,205,0,0.3);
-      cursor: pointer;
-      transition: all 0.3s;
-      border: 1px solid rgba(255,205,0,0.5);
-    }
-    .nav-dot.active {
-      background: var(--gold);
-      transform: scale(1.4);
-    }
-
-    /* ── DIVIDER ── */
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 0 auto 32px;
-      max-width: 300px;
-      width: 100%;
-      color: var(--gold);
-      opacity: 0.5;
-    }
-    .divider::before, .divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--gold);
-    }
-
-    @media (max-width: 600px) {
-      .photo-grid { grid-template-columns: repeat(2, 1fr); }
-      .panel { padding: 28px 20px; }
-      .wanted-poster { max-width: 320px; }
-    }
+    @media(max-width:600px){.photo-grid{grid-template-columns:repeat(2,1fr)}.panel{padding:28px 20px}.wanted-poster{max-width:320px}}
   </style>
 </head>
 <body>
 
-<!-- Fixed ocean background -->
+<!-- ═══ DEVIL FRUIT FLOATING BG ═══ -->
+<div class="df-bg" id="dfBg"></div>
+
+<!-- ═══ SURPRISE SCREEN ═══ -->
+<div id="surpriseScreen">
+  <span class="surprise-skull">🏴‍☠️</span>
+  <p class="surprise-eyebrow">⚓ Ek Khaas Surprise Hai Tere Liye ⚓</p>
+  <h1 class="surprise-title">Kya Tum Ready Ho<br/>Surprise Ke Liye? 🎁</h1>
+  <p class="surprise-sub">Sirf ek hi jawab qubool hai captain...</p>
+  <div class="yes-grid">
+    <button class="yes-btn" onclick="goToLogin()">YES! 🔥</button>
+    <button class="yes-btn" onclick="goToLogin()">HAAN JI! 🏴‍☠️</button>
+    <button class="yes-btn" onclick="goToLogin()">BILKUL YES! ⚓</button>
+    <button class="yes-btn" onclick="goToLogin()">100% YES! 🌊</button>
+    <button class="yes-btn" onclick="goToLogin()">OF COURSE YES! ✨</button>
+  </div>
+</div>
+
+<!-- ═══ LOGIN SCREEN ═══ -->
+<div id="loginScreen">
+  <div class="login-box">
+    <span class="login-flag">🔐</span>
+    <h2 class="login-title">Enter The Grand Line</h2>
+    <p class="login-sub">⚓ Pirates Only ⚓</p>
+    <div class="login-field">
+      <label>⚓ Username</label>
+      <input type="text" id="username" placeholder="Enter your pirate name..." autocomplete="off"/>
+    </div>
+    <div class="login-field">
+      <label>🔑 Password</label>
+      <input type="password" id="password" placeholder="Secret code..."/>
+    </div>
+    <button class="login-btn" onclick="checkLogin()">⚓ Set Sail! ⚓</button>
+    <p class="login-error" id="loginError"></p>
+  </div>
+</div>
+
+<!-- ═══ MAIN SITE ═══ -->
+<div id="mainSite">
+
 <div class="ocean-bg">
   <div class="stars" id="stars"></div>
   <div class="wave"></div>
@@ -603,12 +187,8 @@
   <div class="wave"></div>
 </div>
 
-<!-- Navigation dots -->
 <nav class="nav-dots" id="navDots"></nav>
 
-<!-- ═══════════════════════════════════════════
-     SECTION 1 — HERO
-════════════════════════════════════════════ -->
 <section id="hero">
   <span class="jolly-roger">🏴‍☠️</span>
   <p class="hero-eyebrow">A grand adventure awaits</p>
@@ -618,9 +198,6 @@
   <p class="scroll-hint">▼ scroll to begin your journey ▼</p>
 </section>
 
-<!-- ═══════════════════════════════════════════
-     SECTION 2 — HOW THEY MET
-════════════════════════════════════════════ -->
 <section id="meet">
   <div class="divider">⚓</div>
   <div class="panel">
@@ -637,26 +214,20 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════
-     SECTION 3 — WANTED POSTER
-════════════════════════════════════════════ -->
 <section id="wanted">
   <div class="divider">💀</div>
   <div class="wanted-poster">
     <div class="wanted-title">WANTED</div>
-    <p style="font-family:'Special Elite',cursive; font-size:0.7rem; letter-spacing:0.3em; color:#333; margin-bottom:12px;">DEAD OR ALIVE</p>
+    <p style="font-family:'Special Elite',cursive;font-size:0.7rem;letter-spacing:0.3em;color:#333;margin-bottom:12px;">DEAD OR ALIVE</p>
     <div class="wanted-photo">🧑‍✈️</div>
     <div class="wanted-name">Himanshu<br/>"Gattu"</div>
-    <p style="font-family:'Special Elite',cursive; font-size:0.75rem; color:#555; margin:8px 0;">The Boy Whose Eyes Shine<br/>When Luffy Says Gum Gum...</p>
+    <p style="font-family:'Special Elite',cursive;font-size:0.75rem;color:#555;margin:8px 0;">The Boy Whose Eyes Shine<br/>When Luffy Says Gum Gum...</p>
     <div class="wanted-bounty-label">BOUNTY</div>
     <div class="wanted-bounty">฿ 230,000,000</div>
     <p class="wanted-tag">⚓ STRAW HAT ALLY · GRAND LINE ⚓</p>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════
-     SECTION 4 — SNOW MEMORY
-════════════════════════════════════════════ -->
 <section id="snow">
   <div class="divider">❄️</div>
   <div class="memory-card">
@@ -675,44 +246,26 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════
-     SECTION 5 — WHAT BHUMU LOVES
-════════════════════════════════════════════ -->
 <section id="loves">
   <div class="divider">💛</div>
   <div class="panel">
     <p class="section-eyebrow">From Bhumu's Heart</p>
     <h2 class="section-title">Why Gattu is Special</h2>
     <ul class="loves-list">
-      <li>
-        <span class="icon">🎵</span>
-        <span>He sang a song for her. Just like that. Because he wanted to. Because that's who he is.</span>
-      </li>
-      <li>
-        <span class="icon">🥺</span>
-        <span>The way he says <em>"Bhumu"</em> — there's something about that one word that feels like home.</span>
-      </li>
-      <li>
-        <span class="icon">🤝</span>
-        <span>When he holds her hand — quietly, without making it a big deal — that's everything.</span>
-      </li>
-      <li>
-        <span class="icon">💛</span>
-        <span><em>Every single memory with Gattu is special.</em> Every single one.</span>
-      </li>
+      <li><span class="icon">🎵</span><span>He sang a song for her. Just like that. Because he wanted to. Because that's who he is.</span></li>
+      <li><span class="icon">🥺</span><span>The way he says <em>"Bhumu"</em> — there's something about that one word that feels like home.</span></li>
+      <li><span class="icon">🤝</span><span>When he holds her hand — quietly, without making it a big deal — that's everything.</span></li>
+      <li><span class="icon">💛</span><span><em>Every single memory with Gattu is special.</em> Every single one.</span></li>
     </ul>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════
-     SECTION 6 — GUM GUM MOMENT
-════════════════════════════════════════════ -->
 <section id="gumgum">
   <div class="divider">⚡</div>
   <div class="panel" style="text-align:center;">
     <p class="section-eyebrow">The Luffy Effect</p>
     <h2 class="section-title">"Gum Gum...!"</h2>
-    <div style="font-size:4rem; margin:16px 0; animation:float 2s ease-in-out infinite;">🌟</div>
+    <div style="font-size:4rem;margin:16px 0;animation:float-el 2s ease-in-out infinite;">🌟</div>
     <p class="section-body" style="text-align:center;">
       There is one very specific moment that Bhumu loves watching.<br/><br/>
       The second Luffy yells <em>"Gum Gum...!"</em> on screen —
@@ -723,15 +276,12 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════
-     SECTION 7 — OUR SONG
-════════════════════════════════════════════ -->
 <section id="song">
   <div class="divider">🎵</div>
   <div style="text-align:center;">
     <p class="section-eyebrow">Their Song</p>
-    <h2 class="section-title" style="font-family:'Cinzel Decorative',serif; color:var(--gold); font-size:clamp(1.4rem,4vw,2.2rem);">Sau Asmano Pe</h2>
-    <p class="section-body" style="max-width:500px; text-align:center; margin:0 auto;">
+    <h2 class="section-title" style="font-family:'Cinzel Decorative',serif;color:var(--gold);font-size:clamp(1.4rem,4vw,2.2rem);">Sau Asmano Pe</h2>
+    <p class="section-body" style="max-width:500px;text-align:center;margin:0 auto;">
       Some songs feel like they were written for two specific people.<br/>
       This one was written for them. 🎶
     </p>
@@ -750,17 +300,14 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════
-     SECTION 9 — MESSAGE
-════════════════════════════════════════════ -->
 <section id="message">
   <div class="divider">✍️</div>
-  <div style="text-align:center; max-width:720px; width:100%;">
+  <div style="text-align:center;max-width:720px;width:100%;">
     <p class="section-eyebrow">Written With Love</p>
-    <h2 class="section-title" style="font-family:'Cinzel Decorative',serif; color:var(--gold); font-size:clamp(1.4rem,4vw,2.2rem);">A Letter From Bhumu</h2>
-    <div class="message-box" style="text-align:left; min-height:auto;">
-      <p style="font-family:'Cinzel Decorative',serif; font-size:1.3rem; color:var(--gold); margin-bottom:20px;">To Gattu 😎</p>
-      <p style="font-size:1.05rem; line-height:2; color:#e8d9b5; font-style:italic;">
+    <h2 class="section-title" style="font-family:'Cinzel Decorative',serif;color:var(--gold);font-size:clamp(1.4rem,4vw,2.2rem);">A Letter From Bhumu</h2>
+    <div class="message-box" style="text-align:left;">
+      <p style="font-family:'Cinzel Decorative',serif;font-size:1.3rem;color:var(--gold);margin-bottom:20px;">To Gattu 😎</p>
+      <p style="font-size:1.05rem;line-height:2;color:#e8d9b5;font-style:italic;">
         Hii, Gattu kaise ho? Bhumu this side.... Kaise rhe 45 days Bhumu k bina 😄 Shanti mili thodi din ki hass, pick and drop service nhi, petrol ka karcha kaam, bhar nhi jna ya yaad aai ki abh time h kaam h phir bhi insaan nhi jiski adat hogyi h, baat kaheni h, milna h bhot kuch but insaan available nhi h.
         <br/><br/>
         Mere 45 days m maine yeh sikha ki mujhe maan m yeh doubt tha ki mai outlove ho jaungi, feeling shift hojayegi blaaa blaaa... voh sab khtm ho gye h i know and i am sure ki mujhe aap chahiye ho and how you make my life more beautiful....
@@ -773,42 +320,36 @@
         <br/><br/>
         The one thing that i always admire abt u is your helping nature.. i still remember k8 hum ek din university m scooty chala rhe the toh barricade gira hua tha and you say me to stop scooty hum bhale hi nikl skhte h carwale nhi or aapne ushe shi kiya.. phir ek din ladkiya thi unkhe k liye waapis gye check krne safe ya nhi...
         <br/><br/>
-        <em>I don't need big moments to fall for you i just want small moments and i fall in love with you again and again...</em>
+        <strong style="color:var(--gold);">I don't need big moments to fall for you i just want small moments and i fall in love with you again and again...</strong>
         <br/><br/>
         These small things make you more and more handsome day by day i bet... By the way <em>you are the most handsome man i ever met baby!! 😍❤️</em>
         <br/><br/>
         Today i am your gennie i will fulfill your any three wishes you want .... 🧞‍♀️🧞‍♀️
       </p>
-      <p style="font-family:'Cinzel Decorative',serif; font-size:1.1rem; color:var(--gold); margin-top:28px;">From,<br/>Bhumu 🤩</p>
+      <p style="font-family:'Cinzel Decorative',serif;font-size:1.1rem;color:var(--gold);margin-top:28px;">From,<br/>Bhumu 🤩</p>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════
-     SECTION 10 — PHOTOS
-════════════════════════════════════════════ -->
 <section id="photos">
   <div class="divider">📸</div>
-  <div style="text-align:center; max-width:720px; width:100%;">
+  <div style="text-align:center;max-width:720px;width:100%;">
     <p class="section-eyebrow">Memories</p>
-    <h2 class="section-title" style="font-family:'Cinzel Decorative',serif; color:var(--gold); font-size:clamp(1.4rem,4vw,2.2rem);">Our Adventure Log</h2>
+    <h2 class="section-title" style="font-family:'Cinzel Decorative',serif;color:var(--gold);font-size:clamp(1.4rem,4vw,2.2rem);">Our Adventure Log</h2>
     <div class="photo-grid">
-      <div class="photo-slot"><img src="photo_1_2026-07-11_12-47-34.jpg" alt="Memory 1" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"/></div>
-      <div class="photo-slot"><img src="photo_2_2026-07-11_12-47-34.jpg" alt="Memory 2" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"/></div>
-      <div class="photo-slot"><img src="photo_3_2026-07-11_12-47-34.jpg" alt="Memory 3" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"/></div>
-      <div class="photo-slot"><img src="photo_4_2026-07-11_12-47-34.jpg" alt="Memory 4" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"/></div>
-      <div class="photo-slot"><img src="photo_5_2026-07-11_12-47-34.jpg" alt="Memory 5" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"/></div>
-      <div class="photo-slot"><img src="photo_6_2026-07-11_12-47-34.jpg" alt="Memory 6" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"/></div>
+      <div class="photo-slot"><img src="photo_1_2026-07-11_12-47-34.jpg" alt="Memory 1"/></div>
+      <div class="photo-slot"><img src="photo_2_2026-07-11_12-47-34.jpg" alt="Memory 2"/></div>
+      <div class="photo-slot"><img src="photo_3_2026-07-11_12-47-34.jpg" alt="Memory 3"/></div>
+      <div class="photo-slot"><img src="photo_4_2026-07-11_12-47-34.jpg" alt="Memory 4"/></div>
+      <div class="photo-slot"><img src="photo_5_2026-07-11_12-47-34.jpg" alt="Memory 5"/></div>
+      <div class="photo-slot"><img src="photo_6_2026-07-11_12-47-34.jpg" alt="Memory 6"/></div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════
-     SECTION 11 — BIRTHDAY FINALE
-════════════════════════════════════════════ -->
 <section id="finale">
   <div class="confetti-container" id="confetti"></div>
-  <div style="text-align:center; position:relative; z-index:2;">
+  <div style="text-align:center;position:relative;z-index:2;">
     <p class="hero-eyebrow">End of Chapter One · Beginning of Many More</p>
     <h2 class="finale-title">Happy Birthday,<br/>Himanshu! 🎂</h2>
     <p class="finale-sub">Turning 23 · 11th July 2002</p>
@@ -817,117 +358,144 @@
   </div>
 </section>
 
+</div><!-- end mainSite -->
+
 <script>
-  /* ── STARS ── */
-  const starsEl = document.getElementById('stars');
-  for (let i = 0; i < 80; i++) {
-    const s = document.createElement('div');
-    s.classList.add('star');
-    const size = Math.random() * 2.5 + 0.5;
-    s.style.cssText = `
-      width:${size}px; height:${size}px;
-      left:${Math.random()*100}%;
-      top:${Math.random()*60}%;
-      animation-delay:${Math.random()*3}s;
-      animation-duration:${2+Math.random()*3}s;
-    `;
-    starsEl.appendChild(s);
+  /* ── DEVIL FRUITS ── */
+  const fruits = ['🍎','🍊','🍋','🍇','🫐','🍓','🍒','🥭','🍑','🍍'];
+  const dfBg = document.getElementById('dfBg');
+  for(let i=0;i<25;i++){
+    const d=document.createElement('div');
+    d.classList.add('df');
+    d.textContent=fruits[Math.floor(Math.random()*fruits.length)];
+    d.style.cssText=`left:${Math.random()*100}%;font-size:${2+Math.random()*3}rem;animation-duration:${8+Math.random()*12}s;animation-delay:${Math.random()*10}s`;
+    dfBg.appendChild(d);
   }
 
-  /* ── CONFETTI ── */
-  const confettiContainer = document.getElementById('confetti');
-  const colors = ['#D70000','#FFCD00','#62C3F8','#0B3075','#AF6528','#ffffff'];
-  for (let i = 0; i < 60; i++) {
-    const c = document.createElement('div');
-    c.classList.add('confetti-piece');
-    c.style.cssText = `
-      left:${Math.random()*100}%;
-      background:${colors[Math.floor(Math.random()*colors.length)]};
-      width:${6+Math.random()*8}px;
-      height:${6+Math.random()*8}px;
-      animation-duration:${3+Math.random()*4}s;
-      animation-delay:${Math.random()*4}s;
-      border-radius:${Math.random()>0.5?'50%':'2px'};
-    `;
-    confettiContainer.appendChild(c);
+  /* ── SURPRISE → LOGIN ── */
+  function goToLogin(){
+    document.getElementById('surpriseScreen').classList.add('hide');
+    setTimeout(()=>{
+      document.getElementById('surpriseScreen').style.display='none';
+      const ls=document.getElementById('loginScreen');
+      ls.classList.add('show');
+    },800);
   }
 
-  /* ── SCROLL REVEAL ── */
-  const sections = document.querySelectorAll('section');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) e.target.classList.add('visible');
+  /* ── LOGIN CHECK ── */
+  function checkLogin(){
+    const u=document.getElementById('username').value.trim();
+    const p=document.getElementById('password').value.trim();
+    const err=document.getElementById('loginError');
+    if(u==='Gattu_ki_gattudi' && p==='Bhumik@15'){
+      err.textContent='';
+      document.getElementById('loginScreen').classList.add('hide');
+      setTimeout(()=>{
+        document.getElementById('loginScreen').style.display='none';
+        const ms=document.getElementById('mainSite');
+        ms.classList.add('show');
+        initMainSite();
+      },800);
+    } else {
+      err.textContent='⚠️ Wrong credentials! Try again pirate...';
+      err.classList.remove('shake');
+      void err.offsetWidth;
+      err.classList.add('shake');
+    }
+  }
+
+  // Enter key on password
+  document.getElementById('password').addEventListener('keydown',e=>{if(e.key==='Enter')checkLogin()});
+  document.getElementById('username').addEventListener('keydown',e=>{if(e.key==='Enter')checkLogin()});
+
+  /* ── MAIN SITE INIT ── */
+  function initMainSite(){
+    // Stars
+    const starsEl=document.getElementById('stars');
+    for(let i=0;i<80;i++){
+      const s=document.createElement('div');
+      s.classList.add('star');
+      const size=Math.random()*2.5+0.5;
+      s.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*60}%;animation-delay:${Math.random()*3}s;animation-duration:${2+Math.random()*3}s`;
+      starsEl.appendChild(s);
+    }
+
+    // Confetti
+    const cc=document.getElementById('confetti');
+    const cols=['#D70000','#FFCD00','#62C3F8','#0B3075','#AF6528','#ffffff'];
+    for(let i=0;i<60;i++){
+      const c=document.createElement('div');
+      c.classList.add('confetti-piece');
+      c.style.cssText=`left:${Math.random()*100}%;background:${cols[Math.floor(Math.random()*cols.length)]};width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;animation-duration:${3+Math.random()*4}s;animation-delay:${Math.random()*4}s;border-radius:${Math.random()>0.5?'50%':'2px'}`;
+      cc.appendChild(c);
+    }
+
+    // Scroll reveal
+    const secs=document.querySelectorAll('section');
+    const obs=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+    },{threshold:0.15});
+    secs.forEach(s=>obs.observe(s));
+
+    // Nav dots
+    const ids=['hero','meet','wanted','snow','loves','gumgum','song','message','photos','finale'];
+    const nd=document.getElementById('navDots');
+    ids.forEach((id,i)=>{
+      const dot=document.createElement('div');
+      dot.classList.add('nav-dot');
+      if(i===0)dot.classList.add('active');
+      dot.addEventListener('click',()=>document.getElementById(id).scrollIntoView({behavior:'smooth'}));
+      nd.appendChild(dot);
     });
-  }, { threshold: 0.15 });
-  sections.forEach(s => observer.observe(s));
-
-  /* ── NAV DOTS ── */
-  const sectionIds = ['hero','meet','wanted','snow','loves','gumgum','song','message','photos','finale'];
-  const navDots = document.getElementById('navDots');
-  sectionIds.forEach((id, i) => {
-    const dot = document.createElement('div');
-    dot.classList.add('nav-dot');
-    if (i === 0) dot.classList.add('active');
-    dot.addEventListener('click', () => document.getElementById(id).scrollIntoView({behavior:'smooth'}));
-    navDots.appendChild(dot);
-  });
-
-  const dotEls = document.querySelectorAll('.nav-dot');
-  const sectionEls = sectionIds.map(id => document.getElementById(id));
-
-  window.addEventListener('scroll', () => {
-    let current = 0;
-    sectionEls.forEach((s, i) => {
-      if (window.scrollY >= s.offsetTop - window.innerHeight/2) current = i;
+    const dotEls=document.querySelectorAll('.nav-dot');
+    const secEls=ids.map(id=>document.getElementById(id));
+    window.addEventListener('scroll',()=>{
+      let cur=0;
+      secEls.forEach((s,i)=>{if(window.scrollY>=s.offsetTop-window.innerHeight/2)cur=i});
+      dotEls.forEach((d,i)=>d.classList.toggle('active',i===cur));
     });
-    dotEls.forEach((d, i) => d.classList.toggle('active', i === current));
-  });
 
-  /* ── HERO auto-visible ── */
-  document.getElementById('hero').classList.add('visible');
+    document.getElementById('hero').classList.add('visible');
+
+    // Music
+    ['click','scroll','keydown','touchstart'].forEach(evt=>{
+      document.addEventListener(evt,startMusic,{once:true,passive:true});
+    });
+  }
 
   /* ── MUSIC ── */
-  const music = document.getElementById('bgMusic');
-  const playBtn = document.getElementById('playBtn');
-  const songStatus = document.getElementById('songStatus');
-  const musicIcon = document.getElementById('musicIcon');
-  let isPlaying = false;
-  let musicStarted = false;
-
-  function startMusic() {
-    if (!musicStarted) {
-      musicStarted = true;
-      music.volume = 0.7;
-      music.play().then(() => {
-        isPlaying = true;
-        playBtn.textContent = '⏸️';
-        songStatus.textContent = 'Now Playing... 🎶';
-        musicIcon.style.animationPlayState = 'running';
-      }).catch(() => { musicStarted = false; });
+  let isPlaying=false,musicStarted=false;
+  function startMusic(){
+    if(!musicStarted){
+      musicStarted=true;
+      const music=document.getElementById('bgMusic');
+      if(!music)return;
+      music.volume=0.7;
+      music.play().then(()=>{
+        isPlaying=true;
+        document.getElementById('playBtn').textContent='⏸️';
+        document.getElementById('songStatus').textContent='Now Playing... 🎶';
+        document.getElementById('musicIcon').style.animationPlayState='running';
+      }).catch(()=>{musicStarted=false});
     }
   }
-
-  function toggleMusic() {
-    if (isPlaying) {
+  function toggleMusic(){
+    const music=document.getElementById('bgMusic');
+    if(!music)return;
+    if(isPlaying){
       music.pause();
-      playBtn.textContent = '▶️';
-      songStatus.textContent = 'Click to play 🎶';
-      musicIcon.style.animationPlayState = 'paused';
-      isPlaying = false;
+      document.getElementById('playBtn').textContent='▶️';
+      document.getElementById('songStatus').textContent='Click to play 🎶';
+      document.getElementById('musicIcon').style.animationPlayState='paused';
+      isPlaying=false;
     } else {
       music.play();
-      playBtn.textContent = '⏸️';
-      songStatus.textContent = 'Now Playing... 🎶';
-      musicIcon.style.animationPlayState = 'running';
-      isPlaying = true;
-      musicStarted = true;
+      document.getElementById('playBtn').textContent='⏸️';
+      document.getElementById('songStatus').textContent='Now Playing... 🎶';
+      document.getElementById('musicIcon').style.animationPlayState='running';
+      isPlaying=true;musicStarted=true;
     }
   }
-
-  // Start on ANY user interaction — click, scroll, keypress, touch
-  ['click','scroll','keydown','touchstart'].forEach(evt => {
-    document.addEventListener(evt, startMusic, { once: true, passive: true });
-  });
 </script>
 </body>
 </html>
