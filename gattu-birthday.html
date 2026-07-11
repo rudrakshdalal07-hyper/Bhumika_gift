@@ -747,23 +747,6 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
-     SECTION 8 — DEN DEN MUSHI / VOICE MESSAGE
-════════════════════════════════════════════ -->
-<section id="audio">
-  <div class="divider">🐌</div>
-  <div class="panel" style="text-align:center;">
-    <p class="section-eyebrow">Den Den Mushi · Voice Message</p>
-    <h2 class="section-title">A Message From Bhumu</h2>
-    <div class="den-den">
-      <div class="den-den-snail">🐌</div>
-      <div class="den-den-label">Incoming transmission...</div>
-      <button class="audio-upload-btn">🎙️ Upload Voice Message</button>
-      <p style="font-size:0.8rem; color:rgba(98,195,248,0.5); font-style:italic;">Add Bhumika's audio file here</p>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════
      SECTION 9 — MESSAGE
 ════════════════════════════════════════════ -->
 <section id="message">
@@ -859,7 +842,7 @@
   sections.forEach(s => observer.observe(s));
 
   /* ── NAV DOTS ── */
-  const sectionIds = ['hero','meet','wanted','snow','loves','gumgum','song','audio','message','photos','finale'];
+  const sectionIds = ['hero','meet','wanted','snow','loves','gumgum','song','message','photos','finale'];
   const navDots = document.getElementById('navDots');
   sectionIds.forEach((id, i) => {
     const dot = document.createElement('div');
