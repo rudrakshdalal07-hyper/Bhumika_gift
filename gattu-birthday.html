@@ -743,8 +743,9 @@
       </div>
       <div style="font-size:1.8rem;" id="playBtn">▶️</div>
     </div>
-    <audio id="bgMusic" loop>
+    <audio id="bgMusic" loop preload="auto">
       <source src="song.m4a" type="audio/mp4">
+      <source src="song.m4a" type="audio/x-m4a">
     </audio>
   </div>
 </section>
@@ -757,12 +758,28 @@
   <div style="text-align:center; max-width:720px; width:100%;">
     <p class="section-eyebrow">Written With Love</p>
     <h2 class="section-title" style="font-family:'Cinzel Decorative',serif; color:var(--gold); font-size:clamp(1.4rem,4vw,2.2rem);">A Letter From Bhumu</h2>
-    <div class="message-box">
-      <div class="message-pen">✍️</div>
-      <p class="message-placeholder">
-        Yahan Bhumika apna message likhegi...<br/>
-        <span style="font-size:0.9rem; color:rgba(255,205,0,0.25);">(This space is yours, Bhumu 💛)</span>
+    <div class="message-box" style="text-align:left; min-height:auto;">
+      <p style="font-family:'Cinzel Decorative',serif; font-size:1.3rem; color:var(--gold); margin-bottom:20px;">To Gattu 😎</p>
+      <p style="font-size:1.05rem; line-height:2; color:#e8d9b5; font-style:italic;">
+        Hii, Gattu kaise ho? Bhumu this side.... Kaise rhe 45 days Bhumu k bina 😄 Shanti mili thodi din ki hass, pick and drop service nhi, petrol ka karcha kaam, bhar nhi jna ya yaad aai ki abh time h kaam h phir bhi insaan nhi jiski adat hogyi h, baat kaheni h, milna h bhot kuch but insaan available nhi h.
+        <br/><br/>
+        Mere 45 days m maine yeh sikha ki mujhe maan m yeh doubt tha ki mai outlove ho jaungi, feeling shift hojayegi blaaa blaaa... voh sab khtm ho gye h i know and i am sure ki mujhe aap chahiye ho and how you make my life more beautiful....
+        <br/><br/>
+        Aap bolte ho aap emotionless ho but mujhe pta h aap me h bhot beautiful emotions h joh mujhe dikhtai h, mujhe feel hote but aap unhe express krne se drte ho.. koi nhi dheere dheere apko beleive karaungi khud p ki aap mere samne kuch bhi kbhi bhi express kr skhte ho... 🫣🥰
+        <br/><br/>
+        I will try ki mai sab smju aapka gussa, aapka pyaar, apki sadness, apki hawas, apka pain sab sab kuch..... <em>I love you so so so much goll gappe.........</em>
+        <br/><br/>
+        Abh pyaar mohbaat bhot hua aaj toh bday h aapka and you are going to be 24 so i want to wish something for you... I want ki aap hamesha khush rho, apne carrer m grow kro, world ghumo travel kro majjee kro, anime dekho, sab kro j9h aap chahte ho, healthy raho, fit raho <em>all my blessings to you babu...</em>
+        <br/><br/>
+        The one thing that i always admire abt u is your helping nature.. i still remember k8 hum ek din university m scooty chala rhe the toh barricade gira hua tha and you say me to stop scooty hum bhale hi nikl skhte h carwale nhi or aapne ushe shi kiya.. phir ek din ladkiya thi unkhe k liye waapis gye check krne safe ya nhi...
+        <br/><br/>
+        <em>I don't need big moments to fall for you i just want small moments and i fall in love with you again and again...</em>
+        <br/><br/>
+        These small things make you more and more handsome day by day i bet... By the way <em>you are the most handsome man i ever met baby!! 😍❤️</em>
+        <br/><br/>
+        Today i am your gennie i will fulfill your any three wishes you want .... 🧞‍♀️🧞‍♀️
       </p>
+      <p style="font-family:'Cinzel Decorative',serif; font-size:1.1rem; color:var(--gold); margin-top:28px;">From,<br/>Bhumu 🤩</p>
     </div>
   </div>
 </section>
@@ -875,6 +892,20 @@
   const songStatus = document.getElementById('songStatus');
   const musicIcon = document.getElementById('musicIcon');
   let isPlaying = false;
+  let musicStarted = false;
+
+  function startMusic() {
+    if (!musicStarted) {
+      musicStarted = true;
+      music.volume = 0.7;
+      music.play().then(() => {
+        isPlaying = true;
+        playBtn.textContent = '⏸️';
+        songStatus.textContent = 'Now Playing... 🎶';
+        musicIcon.style.animationPlayState = 'running';
+      }).catch(() => { musicStarted = false; });
+    }
+  }
 
   function toggleMusic() {
     if (isPlaying) {
@@ -882,26 +913,21 @@
       playBtn.textContent = '▶️';
       songStatus.textContent = 'Click to play 🎶';
       musicIcon.style.animationPlayState = 'paused';
+      isPlaying = false;
     } else {
       music.play();
       playBtn.textContent = '⏸️';
       songStatus.textContent = 'Now Playing... 🎶';
       musicIcon.style.animationPlayState = 'running';
+      isPlaying = true;
+      musicStarted = true;
     }
-    isPlaying = !isPlaying;
   }
 
-  // Auto-play on first interaction
-  document.addEventListener('click', function autoPlay() {
-    if (!isPlaying) {
-      music.play().then(() => {
-        isPlaying = true;
-        playBtn.textContent = '⏸️';
-        songStatus.textContent = 'Now Playing... 🎶';
-      }).catch(() => {});
-    }
-    document.removeEventListener('click', autoPlay);
-  }, { once: true });
+  // Start on ANY user interaction — click, scroll, keypress, touch
+  ['click','scroll','keydown','touchstart'].forEach(evt => {
+    document.addEventListener(evt, startMusic, { once: true, passive: true });
+  });
 </script>
 </body>
 </html>
